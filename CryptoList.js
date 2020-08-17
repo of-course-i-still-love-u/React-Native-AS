@@ -80,6 +80,7 @@ export default class CryptoList extends Component {
           data={[1, 2, 3, 4, 5,7,8,9]}
           renderItem={({item}) => this.bodyCardItem(item)} 
           ListHeaderComponent = {this.headerCard}
+          keyExtractor={(item,index) => index.toString()}
           />
 
 
