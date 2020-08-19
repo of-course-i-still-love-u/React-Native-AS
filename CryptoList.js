@@ -75,7 +75,12 @@ export default class CryptoList extends Component {
         </View>
         
         <View style={{flex:0.3,marginRight:15,alignItems:'center',justifyContent:'center'}}>
-        <Text style={{fontSize:18,color:'#f8f8f8',marginLeft:-25,marginBottom:5,fontFamily:'fantasy'}}>{item.quote.USD.price.toFixed( 4 )}</Text>
+        <Text style={{fontSize:16,color:'#f8f8f8',marginLeft:-15,marginBottom:5}}>
+        {
+          item.quote.USD.price.toFixed( 4 )
+          //.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+          </Text>
         
         <View style={styles.bodyCardSubItem}>
         <Text style={{fontSize:14,color:'#000030'}}>{item.quote.USD.percent_change_24h.toFixed( 2 )}</Text>
@@ -96,8 +101,8 @@ export default class CryptoList extends Component {
         style={styles.headerCard}>
 
         <View style={{flex:1}}> 
-        <Text style={{flex:0.2,marginLeft:10,fontSize:20,fontFamily:'fantasy'}}>Total Market Capitalization</Text>
-        <Text style={{flex:0.8,marginLeft:10,fontSize:30,fontFamily:'fantasy'}}>Global Charts</Text>
+        <Text style={{flex:0.2,marginLeft:10,fontSize:20,fontFamily:'fantasy',color:'#f8f8f8'}}>Total Market Capitalization</Text>
+        <Text style={{flex:0.8,marginLeft:10,fontSize:30,fontFamily:'fantasy',color:'#f8f8f8'}}>Global Charts</Text>
         </View>
         
        
@@ -179,7 +184,7 @@ const styles = StyleSheet.create({
   bodyCardItemText:{
 
     flexDirection:'column',
-    fontSize:16,
+    fontSize:19,
     fontFamily:'fantasy',
     color:'#ff0074'
 
