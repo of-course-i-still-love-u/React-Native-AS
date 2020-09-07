@@ -197,12 +197,12 @@ export default class CryptoList extends Component {
 
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }} >
 
-          {/* <Image source={{ uri: CallLogo.Bitcoin }} resizeMode='cover' style={{ height: 34, width: 34, borderRadius: 34 / 2, marginHorizontal: 10 }} /> */}
+          <Image source={ require('./img/btc-img.png')} resizeMode='cover' style={{ height: 64, width: 64, marginHorizontal: 10 }} />
 
           <Text style={{ fontSize: 20, fontFamily: 'fantasy', color: '#FFFFFF', marginHorizontal: 10 }}>{this.state.DataHC_btc_dominance + ' %'}</Text>
           <Text style={{ fontSize: 50, fontFamily: 'fantasy', color: '#FFFFFF', marginHorizontal: 10 }}>|</Text>
 
-          {/* <Image source={{ uri: CallLogo.Ethereum }} resizeMode='cover' style={{ height: 34, width: 34, borderRadius: 34 / 2, marginHorizontal: 10 }} /> */}
+          <Image source={source=require('./img/ETH-img.png')} resizeMode='cover' style={{ height: 64, width: 64, marginHorizontal: 10 }} />
 
           <Text style={{ fontSize: 20, fontFamily: 'fantasy', color: '#FFFFFF', marginHorizontal: 10 }}>{this.state.DataHC_eth_dominance + ' %'}</Text>
 
