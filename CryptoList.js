@@ -23,7 +23,7 @@ export default class CryptoList extends Component {
 
   componentDidMount() {
 
-    //this.getData()
+    this.getData()
     this.getData2()
 
   }
@@ -31,12 +31,16 @@ export default class CryptoList extends Component {
   getData = async () => {
 
 
-    const apiURL = "http://172.20.10.5:8082/getapi/data"
+    const apiFromNodejs = "http://172.20.10.5:8082/getapi/data"
+    const apiFromMainServer = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100'
 
-    fetch(apiURL,
+    fetch(apiFromMainServer,
       {
 
         method: 'GET',
+        headers: {
+          'X-CMC_PRO_API_KEY': '631cf6a4-cd39-4359-8a31-c8142aac780a',
+        },
         json: true,
         gzip: true
       })
@@ -44,15 +48,33 @@ export default class CryptoList extends Component {
       .then((res) => res.json())
       .then((resJson) => {
 
-        let saveData = resJson
+        let resData = resJson.data
+
+
+        for (let i = 0; i <= 99; i++) {
+
+          resData.splice(i, 1, {
+
+            "id": resData[i].id,
+            "name": resData[i].name,
+            "symbol": resData[i].symbol,
+            "cmc_rank": resData[i].cmc_rank,
+            "price": resData[i].quote.USD.price,
+            "percent_change_24h": resData[i].quote.USD.percent_change_24h,
+            "logo": `https://s2.coinmarketcap.com/static/img/coins/64x64/${resData[i].id}.png`
+
+          })
+
+        }
 
         this.setState({
-          Data: saveData
+          Data: resData
 
         })
-
+        //console.log(this.state.Data)
 
       })
+
 
   }
 
@@ -163,7 +185,7 @@ export default class CryptoList extends Component {
           <View style={{ flex: 0.3, marginRight: 15, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: 19, color: '#f8f8f8', marginLeft: -22, marginBottom: 5 }}>
               {
-                item.prices >= 1 ? item.prices.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") : item.prices.toFixed(4)
+                item.price >= 1 ? '$' + item.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '$' + item.price.toFixed(4)
               }
             </Text>
 
@@ -197,12 +219,12 @@ export default class CryptoList extends Component {
 
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }} >
 
-          <Image source={ require('./img/btc-img.png')} resizeMode='cover' style={{ height: 64, width: 64, marginHorizontal: 10 }} />
+          <Image source={require('./img/btc-img.png')} resizeMode='cover' style={{ height: 64, width: 64, marginHorizontal: 10 }} />
 
           <Text style={{ fontSize: 20, fontFamily: 'fantasy', color: '#FFFFFF', marginHorizontal: 10 }}>{this.state.DataHC_btc_dominance + ' %'}</Text>
           <Text style={{ fontSize: 50, fontFamily: 'fantasy', color: '#FFFFFF', marginHorizontal: 10 }}>|</Text>
 
-          <Image source={source=require('./img/ETH-img.png')} resizeMode='cover' style={{ height: 64, width: 64, marginHorizontal: 10 }} />
+          <Image source={source = require('./img/ETH-img.png')} resizeMode='cover' style={{ height: 64, width: 64, marginHorizontal: 10 }} />
 
           <Text style={{ fontSize: 20, fontFamily: 'fantasy', color: '#FFFFFF', marginHorizontal: 10 }}>{this.state.DataHC_eth_dominance + ' %'}</Text>
 
@@ -220,7 +242,7 @@ export default class CryptoList extends Component {
       <View style={styles.container}>
 
         <FlatList
-          data={this.state.DataFL}
+          data={this.state.Data}
           renderItem={({ item }) => this.bodyCardItem(item)}
           ListHeaderComponent={({ item }) => this.headerCard(item)}
           keyExtractor={(item, index) => index.toString()}
